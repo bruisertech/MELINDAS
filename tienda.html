@@ -192,11 +192,16 @@
   </style>
 </head>
 <body>
-  
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-promo-bar">
+    <span class="highlight-badge">ENVÍO GRATIS</span>
+    <span>¡Envío gratis en Cali por compras superiores a $120.000 COP!</span>
+  </div>
+
   <header class="site-header">
     <div class="container nav-wrapper">
       <a href="index.html" class="brand-link">
-        <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img" onerror="this.style.display='none'">
+        <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img">
         <span class="brand-title">Melinda's Makeup</span>
       </a>
 
@@ -252,7 +257,6 @@
     </div>
   </aside>
 
-
   <main class="container">
     <div class="store-hero">
       <span class="section-eyebrow" style="color: var(--color-primary); font-weight:700; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em;">Catálogo Oficial</span>
@@ -295,11 +299,11 @@
     <div class="pagination-wrap" id="paginationControls"></div>
   </main>
 
-  
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
+          <img src="assets/img/logo.png" alt="Melinda's Logo" style="max-height: 50px; margin-bottom: 10px;">
           <h3 style="color: #FFFFFF; font-size: 1.4rem;">Melinda's Makeup</h3>
           <p>Cosméticos 100% originales, cuidado facial y ramos de regalo diseñados con amor en Cali, Colombia.</p>
         </div>
@@ -335,7 +339,6 @@
     </div>
   </footer>
 
-
   <script src="assets/js/app.js"></script>
   <script>
     const ITEMS_PER_PAGE = 16;
@@ -347,7 +350,6 @@
       const catalog = window.MELINDAS_CATALOG || [];
       document.getElementById("totalCountSpan").textContent = catalog.length;
 
-      // Poblar selector de marcas
       const brands = [...new Set(catalog.map(p => p.brand))].sort();
       const brandSelect = document.getElementById("brandSelect");
       brands.forEach(b => {
@@ -357,7 +359,6 @@
         brandSelect.appendChild(opt);
       });
 
-      // Eventos
       document.getElementById("storeSearchInput").addEventListener("input", () => {
         currentPage = 1;
         applyFilters();
@@ -382,7 +383,6 @@
         });
       });
 
-      // Parámetro URL inicial si viene de enlace
       const urlParams = new URLSearchParams(window.location.search);
       const urlBrand = urlParams.get("marca");
       if (urlBrand) {
