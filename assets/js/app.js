@@ -3452,6 +3452,24 @@ function pickRandomShade() {
   }
 }
 
+function openMobileMenu() {
+  const drawer = document.getElementById("mobileNavDrawer");
+  const overlay = document.getElementById("mobileNavOverlay");
+  if (drawer && overlay) {
+    drawer.classList.add("active");
+    overlay.classList.add("active");
+  }
+}
+
+function closeMobileMenu() {
+  const drawer = document.getElementById("mobileNavDrawer");
+  const overlay = document.getElementById("mobileNavOverlay");
+  if (drawer && overlay) {
+    drawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+}
+
 // Inicializar al cargar
 document.addEventListener("DOMContentLoaded", () => {
   loadCart();
@@ -3459,6 +3477,15 @@ document.addEventListener("DOMContentLoaded", () => {
   cartTrigger.forEach(el => el.addEventListener("click", openCart));
   const cartClose = document.querySelectorAll(".cart-drawer-close, #cartOverlay");
   cartClose.forEach(el => el.addEventListener("click", closeCart));
+
+  // Mobile menu listeners
+  const openMenuBtn = document.getElementById("mobileMenuOpenBtn");
+  const closeMenuBtn = document.getElementById("mobileMenuCloseBtn");
+  const menuOverlay = document.getElementById("mobileNavOverlay");
+
+  if (openMenuBtn) openMenuBtn.addEventListener("click", openMobileMenu);
+  if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMobileMenu);
+  if (menuOverlay) menuOverlay.addEventListener("click", closeMobileMenu);
 
   // Initialize 3D Palette if present
   if (document.getElementById("palettePans")) {
