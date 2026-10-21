@@ -120,9 +120,17 @@
 
   <header class="site-header">
     <div class="container nav-wrapper">
+      <button type="button" class="mobile-menu-toggle" id="mobileMenuOpenBtn" aria-label="Abrir Menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
       <a href="index.html" class="brand-link">
         <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img">
-        </a>
+      </a>
 
       <nav>
         <ul class="nav-menu">
@@ -142,10 +150,30 @@
           </svg>
           <span class="cart-count-badge">0</span>
         </button>
-        <a href="tienda.html" class="btn btn-primary btn-sm">Comprar Ahora</a>
+        <a href="tienda.html" class="btn btn-primary btn-sm header-buy-btn">Comprar Ahora</a>
       </div>
     </div>
   </header>
+
+  <!-- MENÚ HAMBURGUESA MÓVIL DRAWER -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-nav-header">
+      <img src="assets/img/logo.png" alt="Melinda's Logo" class="mobile-nav-logo">
+      <button type="button" class="mobile-nav-close" id="mobileMenuCloseBtn">&times;</button>
+    </div>
+    <div class="mobile-nav-body">
+      <ul class="mobile-menu-list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="tienda.html">Tienda & Catálogo</a></li>
+        <li><a href="ramos.html" class="active">Ramos de Regalo</a></li>
+        <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+      </ul>
+      <div class="mobile-nav-footer">
+        <a href="tienda.html" class="btn btn-primary" style="width: 100%;">Ir a la Tienda</a>
+      </div>
+    </div>
+  </aside>
 
   <!-- DRAWER DEL CARRITO -->
   <div class="cart-overlay" id="cartOverlay"></div>
