@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurador de Ramos de Maquillaje • Melinda's Makeup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .builder-hero {
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: start;
+      margin-top: 20px;
+    }
+    .step-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-soft);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .step-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .select-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--color-bg-cloud);
+    }
+    .select-card:hover {
+      border-color: var(--color-primary);
+    }
+    .select-card.active {
+      border-color: var(--color-primary);
+      background: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(255, 42, 122, 0.18);
+    }
+    .select-card-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-berry);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .select-card-sub {
+      font-size: 0.74rem;
+      color: var(--color-text-muted);
+    }
+    .addon-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--color-bg-cloud);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .preview-sticky {
+      position: sticky;
+      top: 100px;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+    }
+    .ramo-art-wrap {
+      width: 180px;
+      height: 220px;
+      margin: 0 auto 20px;
+    }
+    @media (max-width: 900px) {
+      .builder-grid { grid-template-columns: 1fr; }
+      .preview-sticky { position: static; }
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-link">
+        <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img" onerror="this.style.display='none'">
+        <span class="brand-title">Melinda's Makeup</span>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="">Inicio</a></li>
+          <li><a href="tienda.html" class="">Tienda & Catálogo</a></li>
+          <li><a href="ramos.html" class="active">Ramos de Regalo</a></li>
+          <li><a href="sobre-nosotros.html" class="">Sobre Nosotros</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-right">
+        <button type="button" class="cart-icon-btn cart-drawer-trigger" title="Ver Bolsa de Compras">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count-badge">0</span>
+        </button>
+        <a href="tienda.html" class="btn btn-primary btn-sm">Comprar Ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- DRAWER DEL CARRITO -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3 class="font-serif">Tu Bolsa de Compras</h3>
+      <button type="button" class="cart-drawer-close">&times;</button>
+    </div>
+    <div class="shipping-bar-container">
+      <p class="shipping-msg" id="shippingProgressMsg">Calculando envío gratis...</p>
+      <div class="shipping-track">
+        <div class="shipping-fill" id="shippingProgressBar"></div>
+      </div>
+    </div>
+    <div class="cart-items-scroll" id="cartItemsList"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-line">
+        <span>Subtotal:</span>
+        <span id="cartSubtotalText">$0 COP</span>
+      </div>
+      <button type="button" class="btn btn-whatsapp" style="width: 100%;" onclick="checkoutWhatsApp()">
+        <span>Pedir por WhatsApp</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <p style="text-align: center; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 8px;">
+        🔒 Pagos seguros por Nequi, Daviplata, Bold y PSE.
+      </p>
+    </div>
+  </aside>
+
+
+  <main class="container">
+    <div class="builder-hero">
+      <span class="section-eyebrow" style="color:var(--color-primary); font-weight:700; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em;">Diseño Personalizado</span>
+      <h1 style="font-size: 2.2rem; margin-top: 4px;">Configura tu Ramo de Maquillaje</h1>
+      <p style="color: var(--color-text-muted); font-size: 0.95rem;">Un detalle soñado para cumpleaños, aniversarios o fechas especiales con entrega en Cali.</p>
+    </div>
+
+    <div class="builder-grid">
+      <div>
+        <!-- PASO 1 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-badge">1</span>
+            <h3 style="font-size: 1.15rem;">Selecciona el Tamaño y Capacidad</h3>
+          </div>
+          <div class="option-grid">
+            <div class="select-card" onclick="setRamoSize('petit', 85000, 'Ramo Petit (6 productos)', this)">
+              <span class="select-card-title">Petit</span>
+              <span class="select-card-sub">6 cosméticos</span>
+              <strong style="color: var(--color-primary); display:block; margin-top:4px; font-size:0.85rem;">$85.000 COP</strong>
+            </div>
+            <div class="select-card active" onclick="setRamoSize('deluxe', 145000, 'Ramo Deluxe (10 productos)', this)">
+              <span class="select-card-title">Deluxe ★</span>
+              <span class="select-card-sub">10 cosméticos</span>
+              <strong style="color: var(--color-primary); display:block; margin-top:4px; font-size:0.85rem;">$145.000 COP</strong>
+            </div>
+            <div class="select-card" onclick="setRamoSize('imperial', 210000, 'Ramo Imperial (15 productos)', this)">
+              <span class="select-card-title">Imperial</span>
+              <span class="select-card-sub">15 cosméticos</span>
+              <strong style="color: var(--color-primary); display:block; margin-top:4px; font-size:0.85rem;">$210.000 COP</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-badge">2</span>
+            <h3 style="font-size: 1.15rem;">Elige el Color del Papel Coreano</h3>
+          </div>
+          <div class="option-grid">
+            <div class="select-card active" onclick="setRamoColor('Rosa Champagne', '#F2D6CD', this)">
+              <span class="select-card-title">Rosa Champagne</span>
+              <span class="select-card-sub">Elegante y chic</span>
+            </div>
+            <div class="select-card" onclick="setRamoColor('Negro Couture', '#251E1C', this)">
+              <span class="select-card-title">Negro Couture</span>
+              <span class="select-card-sub">Acabado sofisticado</span>
+            </div>
+            <div class="select-card" onclick="setRamoColor('Lila Pastel', '#E5DCF2', this)">
+              <span class="select-card-title">Lila Pastel</span>
+              <span class="select-card-sub">Tierno y delicado</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-badge">3</span>
+            <h3 style="font-size: 1.15rem;">Complementos Especiales</h3>
+          </div>
+          <label class="addon-item">
+            <div>
+              <strong style="font-size: 0.9rem; display:block;">Luces LED Micro Cálidas</strong>
+              <span style="font-size: 0.78rem; color: var(--color-text-muted);">Iluminación mágica que resalta los productos</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="color: var(--color-primary); font-weight:700; font-size:0.84rem;">+$15.000 COP</span>
+              <input type="checkbox" id="checkLed" onchange="recalcRamo()">
+            </div>
+          </label>
+          <label class="addon-item">
+            <div>
+              <strong style="font-size: 0.9rem; display:block;">Caja Chocolates Ferrero Rocher (x4)</strong>
+              <span style="font-size: 0.78rem; color: var(--color-text-muted);">Toque dulce irresistible</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="color: var(--color-primary); font-weight:700; font-size:0.84rem;">+$22.000 COP</span>
+              <input type="checkbox" id="checkChoco" onchange="recalcRamo()">
+            </div>
+          </label>
+          <label class="addon-item">
+            <div>
+              <strong style="font-size: 0.9rem; display:block;">Tarjeta con Dedicatoria Caligrafiada</strong>
+              <span style="font-size: 0.78rem; color: var(--color-text-muted);">Escribe el mensaje que desees entregar</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="color: #2E7D32; font-weight:700; font-size:0.84rem;">¡GRATIS!</span>
+              <input type="checkbox" id="checkCard" checked onchange="recalcRamo()">
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- PREVIEW Y PRECIO EN VIVO -->
+      <div>
+        <div class="preview-sticky">
+          <div class="ramo-art-wrap">
+            <svg viewBox="0 0 200 240" width="100%" height="100%">
+              <defs>
+                <linearGradient id="ramoConeGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F2D6CD" id="coneColor1"/>
+                  <stop offset="100%" stop-color="#C2826F" id="coneColor2"/>
+                </linearGradient>
+              </defs>
+              <polygon points="100,225 30,80 170,80" fill="url(#ramoConeGrad)" stroke="#B76E79" stroke-width="1.5"/>
+              <polygon points="100,225 60,95 140,95" fill="rgba(0,0,0,0.06)"/>
+              <rect x="70" y="40" width="22" height="55" rx="3" fill="#D4AF37" transform="rotate(-15 70 40)"/>
+              <rect x="105" y="35" width="26" height="60" rx="3" fill="#22092C" transform="rotate(12 105 35)"/>
+              <circle cx="100" cy="55" r="16" fill="#FF2A7A" stroke="#FFFFFF" stroke-width="2"/>
+              <rect x="50" y="55" width="14" height="40" rx="2" fill="#E5ABA0" transform="rotate(-28 50 55)"/>
+              <rect x="135" y="50" width="14" height="42" rx="2" fill="#C2826F" transform="rotate(25 135 50)"/>
+              <circle cx="85" cy="80" r="10" fill="#FFFFFF" opacity="0.9"/>
+              <circle cx="115" cy="80" r="10" fill="#FFFFFF" opacity="0.9"/>
+              <path d="M80,180 Q100,195 120,180 Q135,170 120,165 Q100,175 80,165 Q65,170 80,180" fill="#D4AF37"/>
+            </svg>
+          </div>
+
+          <h3 id="ramoSummaryTitle" style="font-size: 1.25rem; margin-bottom: 4px;">Ramo Deluxe (10 productos)</h3>
+          <p id="ramoSummaryColor" style="font-size: 0.84rem; color: var(--color-text-muted); margin-bottom: 18px;">Papel Rosa Champagne</p>
+
+          <div id="ramoTotalDisplay" style="font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 20px;">
+            $145.000 COP
+          </div>
+
+          <button type="button" class="btn btn-primary" style="width: 100%;" onclick="addRamoToCart()">
+            <span>Añadir a la Bolsa de Compras</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3 style="color: #FFFFFF; font-size: 1.4rem;">Melinda's Makeup</h3>
+          <p>Cosméticos 100% originales, cuidado facial y ramos de regalo diseñados con amor en Cali, Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="tienda.html">Tienda Completa</a></li>
+            <li><a href="ramos.html">Ramos de Maquillaje</a></li>
+            <li><a href="sobre-nosotros.html">Historia & Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Marcas Aliadas</h4>
+          <ul>
+            <li><a href="tienda.html?marca=Bioaqua">Bioaqua</a></li>
+            <li><a href="tienda.html?marca=Samy">Samy</a></li>
+            <li><a href="tienda.html?marca=Trendy">Trendy</a></li>
+            <li><a href="tienda.html?marca=Dolce%20Bella">Dolce Bella</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Atención al Cliente</h4>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;">📍 Cali, Valle del Cauca</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;">📲 WhatsApp: +57 317 527 6404</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 14px;">📷 Instagram: @melindas_makeup_</p>
+          <a href="https://wa.me/573175276404" target="_blank" class="btn btn-whatsapp btn-sm">Escribir al WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Melinda's Makeup Cali. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    const ramoState = {
+      key: "deluxe",
+      basePrice: 145000,
+      title: "Ramo Deluxe (10 productos)",
+      colorName: "Rosa Champagne",
+      colorHex: "#F2D6CD"
+    };
+
+    function setRamoSize(key, price, title, el) {
+      ramoState.key = key;
+      ramoState.basePrice = price;
+      ramoState.title = title;
+      el.parentElement.querySelectorAll(".select-card").forEach(c => c.classList.remove("active"));
+      el.classList.add("active");
+      recalcRamo();
+    }
+
+    function setRamoColor(name, hex, el) {
+      ramoState.colorName = name;
+      ramoState.colorHex = hex;
+      el.parentElement.querySelectorAll(".select-card").forEach(c => c.classList.remove("active"));
+      el.classList.add("active");
+      document.getElementById("coneColor1").setAttribute("stop-color", hex);
+      recalcRamo();
+    }
+
+    function recalcRamo() {
+      const led = document.getElementById("checkLed").checked ? 15000 : 0;
+      const choco = document.getElementById("checkChoco").checked ? 22000 : 0;
+      const total = ramoState.basePrice + led + choco;
+
+      document.getElementById("ramoSummaryTitle").textContent = ramoState.title;
+      document.getElementById("ramoSummaryColor").textContent = `Papel ${ramoState.colorName} ${led ? '• Luces LED' : ''} ${choco ? '• Ferrero' : ''}`;
+      document.getElementById("ramoTotalDisplay").textContent = "$" + total.toLocaleString("es-CO") + " COP";
+      return total;
+    }
+
+    function addRamoToCart() {
+      const total = recalcRamo();
+      const variantDesc = `${ramoState.colorName} ${document.getElementById('checkLed').checked ? '+ LED' : ''} ${document.getElementById('checkChoco').checked ? '+ Ferrero' : ''}`;
+      addToCart("ramo-" + Date.now(), ramoState.title, total, "assets/img/logo.png", variantDesc);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda & Catálogo • Melinda's Makeup Cali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .store-hero {
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+    .filter-bar {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 14px;
+      align-items: center;
+      box-shadow: var(--shadow-soft);
+    }
+    .search-input-wrap {
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 16px 10px 38px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--color-primary);
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-muted);
+    }
+    .custom-select {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      font-size: 0.88rem;
+      background: #FFFFFF;
+      outline: none;
+      cursor: pointer;
+    }
+    .category-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .cat-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      border-color: var(--color-primary);
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .prod-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      box-shadow: var(--shadow-soft);
+    }
+    .prod-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--color-primary);
+    }
+    .prod-card-thumb {
+      height: 200px;
+      background: var(--color-bg-cloud);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .prod-card-thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+    .prod-card:hover .prod-card-thumb img {
+      transform: scale(1.06);
+    }
+    .prod-card-info {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .prod-brand-tag {
+      font-size: 0.72rem;
+      color: var(--color-primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .prod-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.3;
+      color: var(--color-berry);
+    }
+    .prod-desc {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .prod-price {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      margin-top: auto;
+      margin-bottom: 12px;
+    }
+    /* PAGINACIÓN */
+    .pagination-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      min-width: 38px;
+      height: 38px;
+      padding: 0 8px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: #FFFFFF;
+      color: var(--color-berry);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .page-btn:hover, .page-btn.active {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      border-color: var(--color-primary);
+    }
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    @media (max-width: 800px) {
+      .filter-bar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-link">
+        <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img" onerror="this.style.display='none'">
+        <span class="brand-title">Melinda's Makeup</span>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="">Inicio</a></li>
+          <li><a href="tienda.html" class="active">Tienda & Catálogo</a></li>
+          <li><a href="ramos.html" class="">Ramos de Regalo</a></li>
+          <li><a href="sobre-nosotros.html" class="">Sobre Nosotros</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-right">
+        <button type="button" class="cart-icon-btn cart-drawer-trigger" title="Ver Bolsa de Compras">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count-badge">0</span>
+        </button>
+        <a href="tienda.html" class="btn btn-primary btn-sm">Comprar Ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- DRAWER DEL CARRITO -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3 class="font-serif">Tu Bolsa de Compras</h3>
+      <button type="button" class="cart-drawer-close">&times;</button>
+    </div>
+    <div class="shipping-bar-container">
+      <p class="shipping-msg" id="shippingProgressMsg">Calculando envío gratis...</p>
+      <div class="shipping-track">
+        <div class="shipping-fill" id="shippingProgressBar"></div>
+      </div>
+    </div>
+    <div class="cart-items-scroll" id="cartItemsList"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-line">
+        <span>Subtotal:</span>
+        <span id="cartSubtotalText">$0 COP</span>
+      </div>
+      <button type="button" class="btn btn-whatsapp" style="width: 100%;" onclick="checkoutWhatsApp()">
+        <span>Pedir por WhatsApp</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <p style="text-align: center; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 8px;">
+        🔒 Pagos seguros por Nequi, Daviplata, Bold y PSE.
+      </p>
+    </div>
+  </aside>
+
+
+  <main class="container">
+    <div class="store-hero">
+      <span class="section-eyebrow" style="color: var(--color-primary); font-weight:700; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em;">Catálogo Oficial</span>
+      <h1 style="font-size: 2.2rem; margin-top: 4px;">Tienda Melinda's Makeup</h1>
+      <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-top: 6px;">
+        Explora nuestros <strong id="totalCountSpan">294</strong> productos organizados en cómodas páginas de 16 productos.
+      </p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-input-wrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="storeSearchInput" class="search-input" placeholder="Buscar por nombre, producto o SKU (ej. Pestañina, Serum, Bioaqua)...">
+      </div>
+      <select id="brandSelect" class="custom-select">
+        <option value="all">Todas las Marcas</option>
+      </select>
+      <select id="sortSelect" class="custom-select">
+        <option value="default">Recomendados</option>
+        <option value="price-asc">Precio: Menor a Mayor</option>
+        <option value="price-desc">Precio: Mayor a Menor</option>
+        <option value="name-asc">Nombre: A - Z</option>
+      </select>
+    </div>
+
+    <div class="category-pills">
+      <button type="button" class="cat-btn active" data-cat="all">Todos los Productos</button>
+      <button type="button" class="cat-btn" data-cat="skincare">Skincare & Cuidado Facial</button>
+      <button type="button" class="cat-btn" data-cat="labios-rostro">Labios & Rostro</button>
+      <button type="button" class="cat-btn" data-cat="ojos-cejas">Ojos & Cejas</button>
+      <button type="button" class="cat-btn" data-cat="brochas-accesorios">Brochas & Accesorios</button>
+      <button type="button" class="cat-btn" data-cat="kits-corporal">Kits & Corporal</button>
+    </div>
+
+    <div class="products-grid" id="storeProductsGrid"></div>
+
+    <div class="pagination-wrap" id="paginationControls"></div>
+  </main>
+
+  
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3 style="color: #FFFFFF; font-size: 1.4rem;">Melinda's Makeup</h3>
+          <p>Cosméticos 100% originales, cuidado facial y ramos de regalo diseñados con amor en Cali, Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="tienda.html">Tienda Completa</a></li>
+            <li><a href="ramos.html">Ramos de Maquillaje</a></li>
+            <li><a href="sobre-nosotros.html">Historia & Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Marcas Aliadas</h4>
+          <ul>
+            <li><a href="tienda.html?marca=Bioaqua">Bioaqua</a></li>
+            <li><a href="tienda.html?marca=Samy">Samy</a></li>
+            <li><a href="tienda.html?marca=Trendy">Trendy</a></li>
+            <li><a href="tienda.html?marca=Dolce%20Bella">Dolce Bella</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Atención al Cliente</h4>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;">📍 Cali, Valle del Cauca</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;">📲 WhatsApp: +57 317 527 6404</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 14px;">📷 Instagram: @melindas_makeup_</p>
+          <a href="https://wa.me/573175276404" target="_blank" class="btn btn-whatsapp btn-sm">Escribir al WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Melinda's Makeup Cali. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    const ITEMS_PER_PAGE = 16;
+    let currentPage = 1;
+    let filteredList = [];
+    let currentCategory = "all";
+
+    function initStore() {
+      const catalog = window.MELINDAS_CATALOG || [];
+      document.getElementById("totalCountSpan").textContent = catalog.length;
+
+      // Poblar selector de marcas
+      const brands = [...new Set(catalog.map(p => p.brand))].sort();
+      const brandSelect = document.getElementById("brandSelect");
+      brands.forEach(b => {
+        const opt = document.createElement("option");
+        opt.value = b;
+        opt.textContent = b;
+        brandSelect.appendChild(opt);
+      });
+
+      // Eventos
+      document.getElementById("storeSearchInput").addEventListener("input", () => {
+        currentPage = 1;
+        applyFilters();
+      });
+
+      brandSelect.addEventListener("change", () => {
+        currentPage = 1;
+        applyFilters();
+      });
+
+      document.getElementById("sortSelect").addEventListener("change", () => {
+        applyFilters();
+      });
+
+      document.querySelectorAll(".cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentCategory = btn.getAttribute("data-cat");
+          currentPage = 1;
+          applyFilters();
+        });
+      });
+
+      // Parámetro URL inicial si viene de enlace
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlBrand = urlParams.get("marca");
+      if (urlBrand) {
+        brandSelect.value = urlBrand;
+      }
+
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const catalog = window.MELINDAS_CATALOG || [];
+      const query = (document.getElementById("storeSearchInput").value || "").toLowerCase().trim();
+      const selectedBrand = document.getElementById("brandSelect").value;
+      const sortBy = document.getElementById("sortSelect").value;
+
+      filteredList = catalog.filter(p => {
+        if (currentCategory !== "all" && p.category !== currentCategory) return false;
+        if (selectedBrand !== "all" && p.brand !== selectedBrand) return false;
+        if (query) {
+          const text = `${p.title} ${p.sku} ${p.brand} ${p.desc}`.toLowerCase();
+          if (!text.includes(query)) return false;
+        }
+        return true;
+      });
+
+      if (sortBy === "price-asc") {
+        filteredList.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "price-desc") {
+        filteredList.sort((a, b) => b.price - a.price);
+      } else if (sortBy === "name-asc") {
+        filteredList.sort((a, b) => a.title.localeCompare(b.title));
+      }
+
+      renderPage();
+      renderPagination();
+    }
+
+    function renderPage() {
+      const grid = document.getElementById("storeProductsGrid");
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const pageItems = filteredList.slice(start, end);
+
+      if (pageItems.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #FFFFFF; border-radius: 16px;">
+            <p style="font-size: 1.1rem; color: var(--color-berry); margin-bottom: 8px;">No se encontraron productos con estos filtros.</p>
+            <button type="button" class="btn btn-outline btn-sm" onclick="resetFilters()">Limpiar Filtros</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = pageItems.map(p => `
+        <div class="prod-card">
+          <div class="prod-card-thumb">
+            <img src="${p.image || 'assets/img/logo.png'}" alt="${p.title}" loading="lazy" onerror="this.src='assets/img/logo.png'">
+          </div>
+          <div class="prod-card-info">
+            <span class="prod-brand-tag">${p.brand} • ${p.sku}</span>
+            <h4 class="prod-name">${p.title}</h4>
+            <p class="prod-desc">${p.desc}</p>
+            <span class="prod-price">$${p.price.toLocaleString("es-CO")} COP</span>
+            <button type="button" class="btn btn-primary btn-sm" onclick="addToCart('${p.id}', '${p.title.replace(/'/g, "\'")}', ${p.price}, '${p.image}')">
+              Añadir a la Bolsa
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredList.length / ITEMS_PER_PAGE);
+      const container = document.getElementById("paginationControls");
+      container.innerHTML = "";
+
+      if (totalPages <= 1) return;
+
+      const prevBtn = document.createElement("button");
+      prevBtn.className = "page-btn";
+      prevBtn.innerHTML = "&laquo;";
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderPage();
+          renderPagination();
+          window.scrollTo({ top: 220, behavior: "smooth" });
+        }
+      };
+      container.appendChild(prevBtn);
+
+      for (let i = 1; i <= totalPages; i++) {
+        if (totalPages > 8 && (i > 3 && i < totalPages - 2 && Math.abs(i - currentPage) > 1)) {
+          if (i === 4 && currentPage > 5) {
+            const dots = document.createElement("span");
+            dots.textContent = "...";
+            dots.style.padding = "0 6px";
+            container.appendChild(dots);
+          }
+          continue;
+        }
+        const btn = document.createElement("button");
+        btn.className = `page-btn ${i === currentPage ? "active" : ""}`;
+        btn.textContent = i;
+        btn.onclick = () => {
+          currentPage = i;
+          renderPage();
+          renderPagination();
+          window.scrollTo({ top: 220, behavior: "smooth" });
+        };
+        container.appendChild(btn);
+      }
+
+      const nextBtn = document.createElement("button");
+      nextBtn.className = "page-btn";
+      nextBtn.innerHTML = "&raquo;";
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderPage();
+          renderPagination();
+          window.scrollTo({ top: 220, behavior: "smooth" });
+        }
+      };
+      container.appendChild(nextBtn);
+    }
+
+    function resetFilters() {
+      document.getElementById("storeSearchInput").value = "";
+      document.getElementById("brandSelect").value = "all";
+      document.getElementById("sortSelect").value = "default";
+      currentCategory = "all";
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+      document.querySelector(".cat-btn[data-cat='all']").classList.add("active");
+      currentPage = 1;
+      applyFilters();
+    }
+
+    document.addEventListener("DOMContentLoaded", initStore);
+  </script>
+</body>
+</html>
