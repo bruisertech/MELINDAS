@@ -10,15 +10,20 @@
   <link rel="stylesheet" href="assets/css/styles.css">
   <style>
     .hero-banner {
-      padding: 70px 0 50px;
-      background: radial-gradient(circle at 10% 20%, rgba(255, 42, 122, 0.12) 0%, transparent 50%),
-                  radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.10) 0%, transparent 50%);
+      padding: 50px 0 30px;
+      background: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 90% 80%, rgba(255, 42, 122, 0.12) 0%, transparent 50%);
     }
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 40px;
+      grid-template-columns: 1fr;
+      gap: 30px;
       align-items: center;
+    }
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
     .hero-title {
       font-size: clamp(2.2rem, 4.5vw, 3.4rem);
@@ -41,22 +46,14 @@
     .trust-badge-item strong {
       display: block;
       color: var(--color-berry);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
     .trust-badge-item span {
       font-size: 0.78rem;
       color: var(--color-text-muted);
     }
-    .hero-card-preview {
-      background: #FFFFFF;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      padding: 30px;
-      box-shadow: var(--shadow-soft);
-      text-align: center;
-    }
     .bestsellers-section {
-      padding: 60px 0;
+      padding: 50px 0;
     }
     .section-title-wrap {
       text-align: center;
@@ -73,7 +70,7 @@
     }
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 22px;
     }
     .prod-card {
@@ -137,25 +134,30 @@
       margin-bottom: 12px;
     }
     .cta-banner {
-      background: linear-gradient(135deg, var(--color-berry) 0%, #15051B 100%);
+      background: linear-gradient(135deg, var(--color-berry) 0%, #0F2038 100%);
       color: #FFFFFF;
-      padding: 50px 30px;
+      padding: 40px 24px;
       border-radius: var(--radius-lg);
       margin: 40px auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 30px;
+      gap: 24px;
       flex-wrap: wrap;
     }
   </style>
 </head>
 <body>
-  
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-promo-bar">
+    <span class="highlight-badge">ENVÍO GRATIS</span>
+    <span>¡Envío gratis en Cali por compras superiores a $120.000 COP!</span>
+  </div>
+
   <header class="site-header">
     <div class="container nav-wrapper">
       <a href="index.html" class="brand-link">
-        <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img" onerror="this.style.display='none'">
+        <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img">
         <span class="brand-title">Melinda's Makeup</span>
       </a>
 
@@ -211,38 +213,117 @@
     </div>
   </aside>
 
-
   <section class="hero-banner">
-    <div class="container hero-grid">
-      <div>
+    <div class="container">
+      <div style="text-align: center; max-width: 760px; margin: 0 auto 30px;">
         <span class="section-eyebrow">Tienda Oficial en Cali • Cosméticos 100% Originales</span>
         <h1 class="hero-title">Realza tu belleza con la magia de <span style="color: var(--color-primary);">Melinda's</span></h1>
-        <p class="hero-subtitle">Descubre nuestro catálogo exclusivo con más de 290 productos en stock inmediato, ramos de maquillaje para regalar y atención personalizada directa a tu WhatsApp.</p>
-        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <p class="hero-subtitle" style="margin: 0 auto 24px;">
+          Descubre nuestro catálogo exclusivo con más de 290 productos en stock inmediato, ramos de maquillaje para regalar y atención personalizada directa a tu WhatsApp.
+        </p>
+        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
           <a href="tienda.html" class="btn btn-primary">Explorar Catálogo Completo</a>
-          <a href="ramos.html" class="btn btn-outline">Diseñar Ramo de Regalo</a>
-        </div>
-        <div class="trust-badges">
-          <div class="trust-badge-item">
-            <strong>🚀 Despachos en Cali</strong>
-            <span>Entregas rápidas y seguras</span>
-          </div>
-          <div class="trust-badge-item">
-            <strong>💳 Pasarela Bold</strong>
-            <span>Nequi, Daviplata y PSE</span>
-          </div>
-          <div class="trust-badge-item">
-            <strong>✨ 100% Originales</strong>
-            <span>Marcas líderes certificadas</span>
-          </div>
+          <a href="ramos.html" class="btn btn-secondary">Diseñar Ramo de Regalo</a>
         </div>
       </div>
-      <div>
-        <div class="hero-card-preview">
-          <img src="assets/img/logo.png" alt="Melinda's Logo" style="max-width: 180px; margin-bottom: 16px;">
-          <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Ramos & Cosméticos</h3>
-          <p style="font-size: 0.86rem; color: var(--color-text-muted); margin-bottom: 20px;">Sorprende a esa persona especial con nuestros bouquets de maquillaje empacados en papel coreano de lujo.</p>
-          <a href="ramos.html" class="btn btn-primary" style="width: 100%;">Configurar Ramo Ahora</a>
+
+      <!-- 3D PALETTE EXPERIENCE IN HERO -->
+      <section class="palette-section" id="paleta-3d">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-eyebrow" style="color: var(--rose-gold-light);">Experiencia Sensorial</span>
+            <h2>Paleta Signature 3D Interactiva</h2>
+            <p>Abre la paleta de sombras con el control de apertura y prueba la pigmentación en diferentes tonos de piel.</p>
+          </div>
+
+          <div class="palette-grid">
+            <div class="palette-stage">
+              <div class="palette-box-3d" id="paletteBox">
+                <!-- TRAY (BASE WITH PANS) -->
+                <div class="palette-tray">
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 6px;">
+                    <span style="font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-gold-light);">MELINDA'S VELVET PALETTE</span>
+                    <span style="font-size: 0.65rem; color: var(--champagne-gold); font-weight: 600;">12 TONOS</span>
+                  </div>
+
+                  <div class="palette-pans" id="palettePans"></div>
+
+                  <div style="display: flex; justify-content: space-between; font-size: 0.62rem; color: rgba(255,255,255,0.4);">
+                    <span>CALI • COLOMBIA</span>
+                    <span>EDICIÓN LIMITADA</span>
+                  </div>
+                </div>
+
+                <!-- HINGED LID WITH OFFICIAL LOGO -->
+                <div class="palette-lid" id="paletteLid">
+                  <div class="lid-exterior">
+                    <img src="assets/img/logo.png" alt="Melinda's Logo" class="lid-logo-img">
+                  </div>
+                  <div class="lid-mirror">
+                    <div class="mirror-glass">
+                      <span class="mirror-quote">Eres Hermosa • Melinda's</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="palette-controls-panel">
+              <div class="shade-info-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <div>
+                    <h4 id="shadeTitle" style="font-size: 1.25rem; color: #FFFFFF;">Champaña Dorado</h4>
+                    <span id="shadeFinish" style="font-size: 0.75rem; color: var(--rose-gold-light); text-transform: uppercase; letter-spacing: 0.08em;">Shimmer Metalizado</span>
+                  </div>
+                  <div class="shade-color-circle" id="shadeCircle" style="background: #E5B887;"></div>
+                </div>
+
+                <p id="shadeDescription" style="font-size: 0.82rem; color: var(--text-light-muted); line-height: 1.5;">
+                  Tono oro suave con micro-partículas de luz. Perfecto para iluminar el lagrimal y el centro del párpado móvil.
+                </p>
+
+                <div class="swatch-display-arm" id="swatchArm">
+                  <div class="swatch-line" id="swatchLine" style="background: linear-gradient(90deg, #E5B887 0%, #FFFFFF 50%, #E5B887 100%);"></div>
+                </div>
+
+                <div class="skin-pickers">
+                  <span style="font-size: 0.72rem; color: var(--text-light-muted);">Tono de piel:</span>
+                  <button type="button" class="skin-dot" style="background: #F7D7C4;" onclick="setSkinTone('#F7D7C4', this)"></button>
+                  <button type="button" class="skin-dot active" style="background: #D7A685;" onclick="setSkinTone('#D7A685', this)"></button>
+                  <button type="button" class="skin-dot" style="background: #AC7753;" onclick="setSkinTone('#AC7753', this)"></button>
+                  <button type="button" class="skin-dot" style="background: #6D4327;" onclick="setSkinTone('#6D4327', this)"></button>
+                </div>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <div class="slider-row">
+                  <span>Apertura de la Paleta:</span>
+                  <strong id="angleText" style="color: var(--champagne-gold);">0°</strong>
+                </div>
+                <input type="range" min="0" max="110" value="0" step="1" class="smooth-range" id="paletteSlider" oninput="updatePaletteAngle(this.value)">
+
+                <div style="display: flex; gap: 10px; margin-top: 14px;">
+                  <button type="button" class="btn btn-secondary btn-sm" style="flex: 1;" onclick="togglePaletteOpen()">Abrir / Cerrar</button>
+                  <button type="button" class="btn btn-dark btn-sm" style="flex: 1;" onclick="pickRandomShade()">Tono Aleatorio</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="trust-badges">
+        <div class="trust-badge-item">
+          <strong>🚀 Despachos en Cali</strong>
+          <span>Entregas rápidas y seguras</span>
+        </div>
+        <div class="trust-badge-item">
+          <strong>💳 Pasarela Bold</strong>
+          <span>Nequi, Daviplata y PSE</span>
+        </div>
+        <div class="trust-badge-item">
+          <strong>✨ 100% Originales</strong>
+          <span>Marcas líderes certificadas</span>
         </div>
       </div>
     </div>
@@ -271,11 +352,11 @@
     </div>
   </section>
 
-  
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
+          <img src="assets/img/logo.png" alt="Melinda's Logo" style="max-height: 50px; margin-bottom: 10px;">
           <h3 style="color: #FFFFFF; font-size: 1.4rem;">Melinda's Makeup</h3>
           <p>Cosméticos 100% originales, cuidado facial y ramos de regalo diseñados con amor en Cali, Colombia.</p>
         </div>
@@ -311,14 +392,12 @@
     </div>
   </footer>
 
-
   <script src="assets/js/app.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const featuredGrid = document.getElementById("featuredGrid");
       if (!featuredGrid || !window.MELINDAS_CATALOG) return;
       
-      // Tomamos 8 productos representativos de alta demanda
       const topSkus = ["MEL-002", "MEL-003", "MEL-004", "MEL-006", "MEL-011", "MEL-024", "MEL-027", "MEL-057"];
       let topItems = window.MELINDAS_CATALOG.filter(p => topSkus.includes(p.sku));
       if (topItems.length < 8) {
