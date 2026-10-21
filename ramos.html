@@ -122,8 +122,7 @@
     <div class="container nav-wrapper">
       <a href="index.html" class="brand-link">
         <img src="assets/img/logo.png" alt="Melinda's Makeup Logo" class="brand-logo-img">
-        <span class="brand-title">Melinda's Makeup</span>
-      </a>
+        </a>
 
       <nav>
         <ul class="nav-menu">
@@ -167,12 +166,17 @@
         <span>Subtotal:</span>
         <span id="cartSubtotalText">$0 COP</span>
       </div>
-      <button type="button" class="btn btn-whatsapp" style="width: 100%;" onclick="checkoutWhatsApp()">
-        <span>Pedir por WhatsApp</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button type="button" class="btn btn-primary" style="width: 100%; font-weight: 700;" onclick="openBoldCheckout()">
+          <span>Pagar con Pasarela Bold (Tarjetas / PSE)</span>
+        </button>
+        <button type="button" class="btn btn-whatsapp" style="width: 100%;" onclick="checkoutWhatsApp()">
+          <span>Pedir por WhatsApp</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
       <p style="text-align: center; font-size: 0.72rem; color: var(--color-text-muted); margin-top: 8px;">
-        🔒 Pagos seguros por Nequi, Daviplata, Bold y PSE.
+         Pagos seguros por Nequi, Daviplata, Bold y PSE.
       </p>
     </div>
   </aside>
@@ -199,7 +203,7 @@
               <strong style="color: var(--color-primary); display:block; margin-top:4px; font-size:0.85rem;">$85.000 COP</strong>
             </div>
             <div class="select-card active" onclick="setRamoSize('deluxe', 145000, 'Ramo Deluxe (10 productos)', this)">
-              <span class="select-card-title">Deluxe ★</span>
+              <span class="select-card-title">Deluxe </span>
               <span class="select-card-sub">10 cosméticos</span>
               <strong style="color: var(--color-primary); display:block; margin-top:4px; font-size:0.85rem;">$145.000 COP</strong>
             </div>
@@ -340,9 +344,9 @@
         </div>
         <div class="footer-col">
           <h4>Atención al Cliente</h4>
-          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;">📍 Cali, Valle del Cauca</p>
-          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;">📲 WhatsApp: +57 317 527 6404</p>
-          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 14px;">📷 Instagram: @melindas_makeup_</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;"> Cali, Valle del Cauca</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 8px;"> WhatsApp: +57 317 527 6404</p>
+          <p style="font-size: 0.86rem; color: #D1B8D9; margin-bottom: 14px;"> Instagram: @melindas_makeup_</p>
           <a href="https://wa.me/573175276404" target="_blank" class="btn btn-whatsapp btn-sm">Escribir al WhatsApp</a>
         </div>
       </div>
@@ -351,6 +355,193 @@
       </div>
     </div>
   </footer>
+
+
+
+  <!-- BOLD PSEUDO-PAYMENT GATEWAY MODAL -->
+  <div class="bold-modal-overlay" id="boldModalOverlay">
+    <div class="bold-modal" id="boldModal">
+      <div class="bold-modal-header">
+        <div class="bold-brand">
+          <span class="bold-logo-badge">BOLD</span>
+          <div>
+            <h3 class="bold-title">Pasarela de Pagos Segura Bold</h3>
+            <span class="bold-subtitle">Melinda's Makeup Cali • Encriptación SSL 256-bit</span>
+          </div>
+        </div>
+        <button type="button" class="bold-close-btn" onclick="closeBoldCheckout()">&times;</button>
+      </div>
+
+      <div class="bold-order-summary">
+        <div>
+          <span class="bold-sum-label">Monto a Pagar:</span>
+          <strong class="bold-sum-amount" id="boldPayAmount">$0 COP</strong>
+        </div>
+        <div style="text-align: right;">
+          <span class="bold-sum-label">Referencia:</span>
+          <span class="bold-sum-ref" id="boldPayRef">REF-BOLD-0000</span>
+        </div>
+      </div>
+
+      <div id="boldCheckoutBody">
+        <!-- TABS METHOD -->
+        <div class="bold-tabs">
+          <button type="button" class="bold-tab-btn active" id="boldTabCard" onclick="switchBoldTab('card')">
+            <span>Tarjeta Débito / Crédito</span>
+          </button>
+          <button type="button" class="bold-tab-btn" id="boldTabPse" onclick="switchBoldTab('pse')">
+            <span>PSE (Débito Bancario)</span>
+          </button>
+        </div>
+
+        <form id="boldPaymentForm" onsubmit="processBoldPayment(event)">
+          <!-- TAB 1: CARD CONTENT -->
+          <div class="bold-tab-content active" id="boldContentCard">
+            <div class="bold-field-group">
+              <label for="boldCardName">Nombre del Titular en la Tarjeta</label>
+              <input type="text" id="boldCardName" class="bold-input" placeholder="Ej. Maria Alejandra Lopez" required>
+            </div>
+
+            <div class="bold-field-group">
+              <label for="boldCardDoc">Cédula o Documento de Identidad</label>
+              <input type="text" id="boldCardDoc" class="bold-input" placeholder="Ej. 1087654321" required>
+            </div>
+
+            <div class="bold-field-group">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="boldCardNum">Número de Tarjeta</label>
+                <span class="bold-card-brand-badge" id="boldCardBrandBadge">VISA / MC</span>
+              </div>
+              <input type="text" id="boldCardNum" class="bold-input" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatBoldCardNum(this)" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="bold-field-group">
+                <label for="boldCardExp">Vencimiento (MM/AA)</label>
+                <input type="text" id="boldCardExp" class="bold-input" placeholder="MM/AA" maxlength="5" oninput="formatBoldCardExp(this)" required>
+              </div>
+              <div class="bold-field-group">
+                <label for="boldCardCvc">Código CVC / CVV</label>
+                <input type="password" id="boldCardCvc" class="bold-input" placeholder="123" maxlength="4" required>
+              </div>
+            </div>
+
+            <div class="bold-field-group">
+              <label for="boldCardInstallments">Número de Cuotas</label>
+              <select id="boldCardInstallments" class="bold-select">
+                <option value="1">1 Cuota (Sin intereses)</option>
+                <option value="2">2 Cuotas</option>
+                <option value="3">3 Cuotas</option>
+                <option value="6">6 Cuotas</option>
+                <option value="12">12 Cuotas</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TAB 2: PSE CONTENT -->
+          <div class="bold-tab-content" id="boldContentPse">
+            <div class="bold-field-group">
+              <label for="boldPseBank">Selecciona tu Banco o Entidad Financiera</label>
+              <select id="boldPseBank" class="bold-select">
+                <option value="">-- Elige tu Banco --</option>
+                <option value="bancolombia">Bancolombia</option>
+                <option value="nequi">Nequi</option>
+                <option value="daviplata">Daviplata</option>
+                <option value="davivienda">Davivienda</option>
+                <option value="banco_bogota">Banco de Bogotá</option>
+                <option value="bbva">BBVA Colombia</option>
+                <option value="banco_occidente">Banco de Occidente</option>
+                <option value="scotiabank">Scotiabank Colpatria</option>
+                <option value="itau">Itaú</option>
+                <option value="lulo_bank">Lulo Bank</option>
+                <option value="nu_bank">Nu Colombia (Cuenta de Ahorros)</option>
+                <option value="rappipay">RappiPay</option>
+              </select>
+            </div>
+
+            <div class="bold-field-group">
+              <label for="boldPsePersonType">Tipo de Persona</label>
+              <select id="boldPsePersonType" class="bold-select">
+                <option value="N">Persona Natural</option>
+                <option value="J">Persona Jurídica</option>
+              </select>
+            </div>
+
+            <div class="bold-field-group">
+              <label for="boldPseName">Nombre Completo del Titular</label>
+              <input type="text" id="boldPseName" class="bold-input" placeholder="Ej. Carlos Eduardo Ramirez">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+              <div class="bold-field-group">
+                <label for="boldPseDocType">Tipo Doc.</label>
+                <select id="boldPseDocType" class="bold-select">
+                  <option value="CC">C.C.</option>
+                  <option value="CE">C.E.</option>
+                  <option value="NIT">NIT</option>
+                  <option value="PP">Pasaporte</option>
+                </select>
+              </div>
+              <div class="bold-field-group">
+                <label for="boldPseDocNum">Número de Documento</label>
+                <input type="text" id="boldPseDocNum" class="bold-input" placeholder="1087654321">
+              </div>
+            </div>
+
+            <div class="bold-field-group">
+              <label for="boldPseEmail">Correo Electrónico (Para comprobante de pago)</label>
+              <input type="email" id="boldPseEmail" class="bold-input" placeholder="cliente@correo.com">
+            </div>
+          </div>
+
+          <button type="submit" class="bold-pay-submit-btn" id="boldSubmitPayBtn">
+            Pagar Ahora con Bold
+          </button>
+        </form>
+      </div>
+
+      <!-- PROCESSING VIEW -->
+      <div class="bold-status-view" id="boldProcessingView">
+        <div class="bold-spinner"></div>
+        <h4 class="bold-status-title">Conectando con la API de Bold...</h4>
+        <p class="bold-status-desc">Procesando la transacción de forma encriptada. Por favor no cierres esta ventana.</p>
+      </div>
+
+      <!-- SUCCESS RECEIPT VIEW -->
+      <div class="bold-status-view" id="boldSuccessView">
+        <div class="bold-success-circle"></div>
+        <h4 class="bold-status-title" style="color: #059669;">¡Transacción Aprobada!</h4>
+        <p class="bold-status-desc">El pago ha sido procesado exitosamente por la Pasarela Bold.</p>
+
+        <div class="bold-receipt-box">
+          <div class="bold-receipt-row">
+            <span>Código Autorización:</span>
+            <strong id="receiptAuthCode">AUTH-849201</strong>
+          </div>
+          <div class="bold-receipt-row">
+            <span>ID Transacción Bold:</span>
+            <strong id="receiptTxId">tx_bold_987654321</strong>
+          </div>
+          <div class="bold-receipt-row">
+            <span>Método de Pago:</span>
+            <strong id="receiptMethod">Tarjeta Débito / Crédito</strong>
+          </div>
+          <div class="bold-receipt-row">
+            <span>Total Pagado:</span>
+            <strong id="receiptTotal">$0 COP</strong>
+          </div>
+          <div class="bold-receipt-row">
+            <span>Comercio:</span>
+            <strong>Melinda's Makeup Cali</strong>
+          </div>
+        </div>
+
+        <button type="button" class="bold-pay-submit-btn" style="background: var(--color-berry);" onclick="finishBoldOrder()">
+          Finalizar y Confirmar Pedido
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script src="assets/js/app.js"></script>
   <script>
